@@ -1,0 +1,9 @@
+﻿/vendor/
+/node_modules/
+/runtime/
+.env
+.DS_Store
+*.log
+.idea/
+.vscode/
+*.sqlite
