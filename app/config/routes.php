@@ -43,14 +43,14 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |
 */
 
-$router->get('/', 'Welcome::index');
-$router->get('test-connection', 'StudentsController::test_connection');
-$router->get('students/delete', 'StudentsController::delete');
-$router->get('students/gui', 'StudentsController::read');
-$router->get('students/all', 'StudentsController::get_all');
-$router->match('students/create', 'StudentsController::create', 'GET|POST');
-$router->match('students/update/{id}', 'StudentsController::update', array('GET', 'POST'));
-$router->match('students/delete/{id}', 'StudentsController::delete', array('GET', 'POST'));
-$router->get('students/all/{page}', 'StudentsController::get_all');
-$router->get('students/all', 'StudentsController::get_all');
+$router->get('/', 'StudentsController::login');
+$router->get('/get_all', 'StudentsController::get_all');
+$router->match('/get_all/{page}', 'StudentsController::get_all', array('GET', 'POST'));
+$router->match('/create', 'StudentsController::create', array('GET', 'POST'));
+$router->match('/update', 'StudentsController::update', array('GET', 'POST'));
+$router->match('/update/{id}', 'StudentsController::update', array('GET', 'POST'));
+$router->match('/delete/{id}', 'StudentsController::delete', array('GET', 'POST'));
 $router->match('students/search', 'StudentsController::search', array('GET', 'POST'));
+$router->match('/login', 'StudentsController::login', array('GET', 'POST'));
+$router->get('/logout', 'StudentsController::logout');
+$router->match('/register', 'StudentsController::register', ['GET', 'POST']);

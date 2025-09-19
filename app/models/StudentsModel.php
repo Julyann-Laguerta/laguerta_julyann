@@ -1,5 +1,5 @@
 <?php
-defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
+defined('PREVENT_DIRECT_ACCESS') OR exit ('No direct script access allowed');
 
 /**
  * Model: StudentsModel
@@ -7,17 +7,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
  * Automatically generated via CLI.
  */
 class StudentsModel extends Model {
-
-    /**
-     * Table associated with the model.
-     * @var string
-     */
     protected $table = 'students';
-
-    /**
-     * Primary key of the table.
-     * @var string
-     */
     protected $primary_key = 'id';
 
     public function __construct()
@@ -25,44 +15,36 @@ class StudentsModel extends Model {
         parent::__construct();
     }
 
-    public function read()
-    {
-        return $this->db->table('students')->get_all();
-    }
-
-    public function create($fname, $lname, $email)
-    {
-        $data = [
-            'first_name' => $fname,
-            'last_name'  => $lname,
-            'email'      => $email
-        ];
+    public function create($first_name, $last_name, $emails) {
+        $data = array(
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'emails' => $emails
+        );
         return $this->db->table('students')->insert($data);
+    }   
+
+   /* public function get_one($id){
+       return $this->db->table('students')->where('id', $id)->get();
     }
 
-    public function finds($id)
+   public function delete($id) {
+       return $this->db->table('students')->where('id', $id)->delete();
+   }*/
+
+   /*public function count_all_records()
     {
-        return $this->db->table('students')->where('id', $id)->get();
-    }
+        $sql = "SELECT COUNT({$this->primary_key}) as total FROM {$this->table} WHERE 1=1";
+        $result = $this->db->raw($sql);
+        return $result ? $result->fetch(PDO::FETCH_ASSOC)['total'] : 0;
+    }*/
 
-    public function delete($id)
+    public function get_records_with_pagination($limit_clause)
     {
-        return $this->db->table('students')->where('id', $id)->delete();
+        $sql = "SELECT * FROM {$this->table} WHERE 1=1 ORDER BY {$this->primary_key} DESC {$limit_clause}";
+        $result = $this->db->raw($sql);
+        return $result ? $result->fetchAll(PDO::FETCH_ASSOC) : [];
     }
-
-    public function count_all_records()
-{
-    $sql = "SELECT COUNT({$this->primary_key}) as total FROM {$this->table} WHERE 1=1";
-    $result = $this->db->raw($sql);
-    return $result ? $result->fetch(PDO::FETCH_ASSOC)['total'] : 0;
-}
-
-public function get_records_with_pagination($limit_clause)
-{
-    $sql = "SELECT * FROM {$this->table} ORDER BY {$this->primary_key} DESC {$limit_clause}";
-    $result = $this->db->raw($sql);
-    return $result ? $result->fetchAll(PDO::FETCH_ASSOC) : [];
-}
 
 public function searchStudents(string $keyword, int $page = 1, int $per_page = 10): array
 {
@@ -70,17 +52,17 @@ public function searchStudents(string $keyword, int $page = 1, int $per_page = 1
 
     if (trim($keyword) !== '') {
         $kw = "%{$keyword}%";
-        $sql = "SELECT id, first_name, last_name, email
+        $sql = "SELECT id, first_name, last_name, emails, profile_pic
                 FROM students
                 WHERE first_name LIKE ?
                    OR last_name LIKE ?
-                   OR email LIKE ?
+                   OR emails LIKE ?
                 ORDER BY id DESC
                 LIMIT ?, ?";
         $stmt = $this->db->raw($sql, [$kw, $kw, $kw, $offset, $per_page]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } else {
-        $sql = "SELECT id, first_name, last_name, email
+        $sql = "SELECT id, first_name, last_name, emails, profile_pic
                 FROM students
                 ORDER BY id DESC
                 LIMIT ?, ?";
@@ -97,7 +79,7 @@ public function count_filtered_records(string $keyword): int
                 FROM students
                 WHERE first_name LIKE ?
                    OR last_name LIKE ?
-                   OR email LIKE ?";
+                   OR emails LIKE ?";
         $stmt = $this->db->raw($sql, [$kw, $kw, $kw]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return (int) ($row['cnt'] ?? 0);
@@ -109,8 +91,19 @@ public function count_filtered_records(string $keyword): int
     }
 }
 
-    
+public function findByUsername($username) {
+    $sql = "SELECT * FROM users WHERE username = ?";
+    $stmt = $this->db->raw($sql, [$username]);
+    return $stmt->fetch(\PDO::FETCH_ASSOC); // ✅ fetch single row as array
 }
 
 
-#StudentsModel.php
+    // Insert new user (useful if you want to register)
+    public function insert1($data) {
+        return $this->db->table('users')->insert($data);
+    }
+
+    public function insert($data) {
+        return $this->db->table('students')->insert($data);
+    }
+}
