@@ -1,15 +1,5 @@
 ﻿{
-  "name": "laguerta/lavalust-dev-v4",
-  "description": "LavaLust Development v4 CRUD app",
-  "type": "project",
   "require": {
-    "php": ">=7.4",
-    "ext-pdo": "*",
-    "ext-mysqli": "*"
-  },
-  "autoload": {
-    "psr-4": {
-      "App\\": "app/"
-    }
+    "php": "^8.0"
   }
 }
