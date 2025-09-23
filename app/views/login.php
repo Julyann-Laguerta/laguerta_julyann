@@ -2,124 +2,148 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>🐱 Login Page 🐾</title>
+  <title>Student Management System - Login</title>
   <style>
     body {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      background-color: #fff8f0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #fde2e4, #f9f9fb);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
-      overflow: hidden;
     }
 
-    /* Floating cats */
-    .cat {
-      position: absolute;
-      font-size: 40px;
-      opacity: 0.8;
-      animation: floatUp 12s linear infinite;
-      pointer-events: none;
-    }
-    @keyframes floatUp {
-      from { transform: translateY(100vh) rotate(0deg); opacity: 0.7; }
-      to { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-    }
-
-    form {
-      background: #fff0f5;
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-      width: 320px;
+    .login-container {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      padding: 30px 25px;
+      width: 360px;
       text-align: center;
-      animation: fadeIn 1s ease-in-out;
-      position: relative;
-      z-index: 10;
+      border: 1px solid #f8d7e2;
     }
-    h2 {
+
+    .login-container .logo {
+      font-size: 40px;
+      color: #ff4da6;
+      margin-bottom: 10px;
+    }
+
+    .login-container h2 {
+      margin: 0;
+      font-size: 20px;
+      color: #d63384;
+      font-weight: 600;
+    }
+
+    .login-container p.subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
       margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .form-group label {
+      font-size: 14px;
       color: #333;
-      text-shadow: 2px 2px #ffe4e1;
+      margin-bottom: 6px;
+      display: block;
     }
-    input {
-      width: 90%;
+
+    .form-group input {
+      width: 100%;
       padding: 12px;
-      margin: 8px 0;
-      border: 2px solid #ffb6c1;
-      border-radius: 30px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
       outline: none;
-      font-size: 15px;
+      font-size: 14px;
       transition: 0.3s;
+      box-sizing: border-box; /* ✅ fixes alignment */
+      display: block;
     }
-    input:focus {
-      border-color: #ff69b4;
-      background-color: #ffe6f0;
-      box-shadow: 0 0 10px rgba(255,105,180,0.5);
+
+    .form-group input:focus {
+      border-color: #ff4da6;
+      box-shadow: 0 0 6px rgba(255, 77, 166, 0.3);
     }
+
     button {
       width: 100%;
       padding: 12px;
-      margin-top: 12px;
-      background: #ffb6c1;
-      color: white;
+      margin-top: 10px;
       border: none;
-      border-radius: 30px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
+      background: linear-gradient(to right, #ff4da6, #ff8fb1);
+      color: #fff;
       transition: 0.3s;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    }
-    button:hover {
-      background: #ff69b4;
-      transform: scale(1.05);
-    }
-    .error {
-      color: red;
-      margin: 10px 0;
-      font-weight: bold;
-    }
-    p {
-      margin-top: 15px;
-      font-size: 14px;
-    }
-    a {
-      color: #ff69b4;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    a:hover {
-      text-decoration: underline;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    .error {
+      color: #d9534f;
+      margin: 10px 0;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .demo-box {
+      margin-top: 20px;
+      font-size: 14px;
+      background: #fff0f5;
+      padding: 12px;
+      border-radius: 8px;
+      color: #444;
+      text-align: left;
+    }
+
+    .demo-box strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #2f5d31;
     }
   </style>
 </head>
 <body>
-  <!-- Floating cats -->
-  <div class="cat" style="left:10%; animation-duration: 15s;">🐱</div>
-  <div class="cat" style="left:30%; animation-duration: 18s;">😺</div>
-  <div class="cat" style="left:50%; animation-duration: 12s;">😸</div>
-  <div class="cat" style="left:70%; animation-duration: 20s;">😹</div>
-  <div class="cat" style="left:85%; animation-duration: 14s;">😻</div>
+  <div class="login-container">
+    <div class="logo">🎓</div>
+    <h2>Student Management System</h2>
+    <p class="subtitle">Sign in to manage student records</p>
 
-  <form action="<?= site_url('login') ?>" method="POST">
-    <h2>🐾 Login 🐾</h2>
-    <?php if (!empty($error)) : ?>
-      <p class="error"><?= $error ?></p>
-    <?php endif; ?>
+    <form action="<?= site_url('login') ?>" method="POST">
+      <?php if (!empty($error)) : ?>
+        <p class="error"><?= $error ?></p>
+      <?php endif; ?>
 
-    <input type="text" name="username" placeholder="😺 Username" required>
-    <input type="password" name="password" placeholder="🔒 Password" required>
-    <button type="submit">✨ Login ✨</button>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="text" name="username" placeholder="admin@school.edu" required>
+      </div>
 
-    <p>Don't have an account? <a href="<?= site_url('register') ?>">Register here 🐱</a></p>
-  </form>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter your password" required>
+      </div>
+
+      <button type="submit">Sign In</button>
+    </form>
+
+    <div class="demo-box">
+      <strong>Demo Credentials:</strong>
+      UserName: juljul <br>
+      Password: 1234567890
+    </div>
+  </div>
 </body>
 </html>
