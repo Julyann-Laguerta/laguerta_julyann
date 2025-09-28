@@ -7,7 +7,7 @@
 <style>
   body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background: #f9f9fb;
+    background: #f0fdf4; /* light green background */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,7 +32,7 @@
     margin-bottom: 20px;
     font-weight: 600;
     font-size: 20px;
-    color: #333;
+    color: #2e7d32; /* dark green */
   }
 
   .upload-section {
@@ -46,13 +46,13 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: 2px solid #ddd;
+    border: 2px solid #b2dfdb;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 28px;
-    color: #999;
-    background: #f4f4f9;
+    color: #4caf50;
+    background: #e8f5e9;
     overflow: hidden;
   }
 
@@ -65,7 +65,7 @@
 
   .file-upload {
     flex: 1;
-    border: 2px dashed #ccc;
+    border: 2px dashed #a5d6a7;
     border-radius: 8px;
     padding: 20px;
     text-align: center;
@@ -74,7 +74,7 @@
   }
 
   .file-upload:hover {
-    border-color: #ff7eb3;
+    border-color: #388e3c;
   }
 
   .file-upload input {
@@ -85,14 +85,14 @@
     display: block;
     font-size: 14px;
     font-weight: 500;
-    color: #555;
+    color: #2e7d32;
     cursor: pointer;
   }
 
   .file-upload small {
     display: block;
     font-size: 12px;
-    color: #777;
+    color: #4caf50;
     margin-top: 4px;
   }
 
@@ -106,7 +106,7 @@
     display: block;
     margin-bottom: 6px;
     font-weight: 500;
-    color: #444;
+    color: #2e7d32;
     font-size: 14px;
   }
 
@@ -114,7 +114,7 @@
   input[type="email"] {
     width: 100%;
     padding: 10px 12px;
-    border: 1px solid #ddd;
+    border: 1px solid #c8e6c9;
     border-radius: 8px;
     font-size: 14px;
     outline: none;
@@ -123,8 +123,8 @@
 
   input[type="text"]:focus,
   input[type="email"]:focus {
-    border-color: #ff7eb3;
-    box-shadow: 0 0 4px rgba(255,126,179,0.4);
+    border-color: #43a047;
+    box-shadow: 0 0 4px rgba(67,160,71,0.4);
   }
 
   .actions {
@@ -147,11 +147,11 @@
   }
 
   .btn-cancel:hover {
-    background: #e5e5e5;
+    background: #e0e0e0;
   }
 
   .btn-submit {
-    background: linear-gradient(45deg, #ff7eb3, #ffb347);
+    background: linear-gradient(45deg, #2e7d32, #66bb6a); /* green gradient */
     border: none;
     padding: 10px 18px;
     border-radius: 8px;

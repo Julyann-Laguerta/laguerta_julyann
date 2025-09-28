@@ -7,7 +7,7 @@
 <style>
   body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background: #f3f4f7;
+    background: #f3f7f3;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,23 +17,22 @@
   .modal {
     background: white;
     width: 520px;
-    border-radius: 14px;
-    padding: 28px 32px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-    border: 1px solid #eaeaea;
+    border-radius: 12px;
+    padding: 25px 30px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     animation: fadeIn 0.4s ease;
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
   }
 
   h2 {
     margin-bottom: 20px;
     font-weight: 600;
     font-size: 20px;
-    color: #2d2d2d;
+    color: #2d6a4f;
   }
 
   .upload-section {
@@ -44,15 +43,16 @@
   }
 
   .avatar {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    border: 2px solid #e0e0e0;
+    border: 2px solid #b7e4c7;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #fafafa;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    font-size: 28px;
+    color: #40916c;
+    background: #f4fdf7;
     overflow: hidden;
   }
 
@@ -63,25 +63,18 @@
     border-radius: 50%;
   }
 
-  .avatar svg {
-    width: 50px;
-    height: 50px;
-    stroke: #888;
-  }
-
   .file-upload {
     flex: 1;
-    border: 2px dashed #d1d1d1;
-    border-radius: 10px;
-    padding: 18px;
+    border: 2px dashed #95d5b2;
+    border-radius: 8px;
+    padding: 20px;
     text-align: center;
-    background: #fcfcfc;
-    transition: border-color 0.3s, background 0.3s;
+    cursor: pointer;
+    transition: border-color 0.3s;
   }
 
   .file-upload:hover {
-    border-color: #ff6584;
-    background: #fff7fa;
+    border-color: #52b788;
   }
 
   .file-upload input {
@@ -92,33 +85,15 @@
     display: block;
     font-size: 14px;
     font-weight: 500;
-    color: #444;
+    color: #2d6a4f;
     cursor: pointer;
-    margin-bottom: 10px;
-  }
-
-  .choose-btn {
-    display: inline-block;
-    background: #f1f1f1;
-    border-radius: 6px;
-    padding: 6px 14px;
-    font-size: 13px;
-    font-weight: 500;
-    color: #333;
-    border: 1px solid #ddd;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-
-  .choose-btn:hover {
-    background: #eaeaea;
   }
 
   .file-upload small {
     display: block;
     font-size: 12px;
-    color: #777;
-    margin-top: 6px;
+    color: #555;
+    margin-top: 4px;
   }
 
   .form-row {
@@ -131,7 +106,7 @@
     display: block;
     margin-bottom: 6px;
     font-weight: 500;
-    color: #444;
+    color: #1b4332;
     font-size: 14px;
   }
 
@@ -139,60 +114,57 @@
   input[type="email"] {
     width: 100%;
     padding: 10px 12px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
     font-size: 14px;
     outline: none;
-    background: #fafafa;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    transition: border-color 0.3s;
   }
 
   input[type="text"]:focus,
   input[type="email"]:focus {
-    border-color: #ff6584;
-    box-shadow: 0 0 6px rgba(255,101,132,0.4);
-    background: #fff;
+    border-color: #52b788;
+    box-shadow: 0 0 4px rgba(82,183,136,0.4);
   }
 
   .actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    margin-top: 15px;
+    margin-top: 10px;
   }
 
   .btn-cancel {
-    background: #f1f1f1;
+    background: #f5f5f5;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 18px;
     border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 500;
-    color: #555;
+    color: #444;
     transition: background 0.3s;
   }
 
   .btn-cancel:hover {
-    background: #e0e0e0;
+    background: #e5e5e5;
   }
 
   .btn-submit {
-    background: linear-gradient(45deg, #ff6584, #ffc371);
+    background: linear-gradient(45deg, #40916c, #74c69d);
     border: none;
-    padding: 10px 22px;
+    padding: 10px 18px;
     border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     color: white;
-    transition: transform 0.2s, box-shadow 0.3s;
-    box-shadow: 0 4px 10px rgba(255,101,132,0.3);
+    transition: transform 0.2s, opacity 0.3s;
   }
 
   .btn-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(255,101,132,0.4);
+    transform: scale(1.05);
+    opacity: 0.9;
   }
 
   .errors {
@@ -205,7 +177,7 @@
 <body>
 
 <div class="modal">
-  <h2>Edit Student Information</h2>
+  <h2>Update Student</h2>
 
   <?php if (!empty($errors)): ?>
     <div class="errors">
@@ -225,18 +197,11 @@
         <?php if (!empty($student['profile_pic'])): ?>
           <img src="/upload/students/<?=$student['profile_pic'];?>" alt="Profile">
         <?php else: ?>
-          <!-- Professional SVG Icon -->
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                  d="M5.121 17.804A9 9 0 1118.364 6.636 
-                     9 9 0 015.121 17.804zM15 11a3 3 0 11-6 0 
-                     3 3 0 016 0z" />
-          </svg>
+          👤
         <?php endif; ?>
       </div>
       <div class="file-upload">
-        <label for="profile_pic">Drag and drop an image here</label>
-        <label class="choose-btn" for="profile_pic">Choose File</label>
+        <label for="profile_pic">Drag and drop an image here, or click to browse</label>
         <input type="file" id="profile_pic" name="profile_pic" accept="image/*">
         <small>Supported: JPG, PNG, GIF • Max 5MB</small>
       </div>
@@ -267,6 +232,7 @@
 </div>
 
 <script>
+  // Preview selected image inside avatar
   const fileInput = document.getElementById("profile_pic");
   const avatar = document.querySelector(".avatar");
 
@@ -274,14 +240,12 @@
     if (fileInput.files && fileInput.files[0]) {
       const reader = new FileReader();
       reader.onload = function(e) {
-        // remove default svg if any
         avatar.innerHTML = `<img src="${e.target.result}" alt="Profile">`;
       }
       reader.readAsDataURL(fileInput.files[0]);
     }
   });
 </script>
-
 
 </body>
 </html>

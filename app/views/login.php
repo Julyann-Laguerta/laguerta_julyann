@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #fde2e4, #f9f9fb);
+      background: linear-gradient(135deg, #e0f7e9, #f9f9fb); /* light green gradient */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -21,19 +21,19 @@
       padding: 30px 25px;
       width: 360px;
       text-align: center;
-      border: 1px solid #f8d7e2;
+      border: 1px solid #bde0c9; /* soft green border */
     }
 
     .login-container .logo {
       font-size: 40px;
-      color: #ff4da6;
+      color: #2e7d32; /* dark green */
       margin-bottom: 10px;
     }
 
     .login-container h2 {
       margin: 0;
       font-size: 20px;
-      color: #d63384;
+      color: #388e3c; /* medium green */
       font-weight: 600;
     }
 
@@ -63,13 +63,13 @@
       outline: none;
       font-size: 14px;
       transition: 0.3s;
-      box-sizing: border-box; /* ✅ fixes alignment */
+      box-sizing: border-box;
       display: block;
     }
 
     .form-group input:focus {
-      border-color: #ff4da6;
-      box-shadow: 0 0 6px rgba(255, 77, 166, 0.3);
+      border-color: #2e7d32;
+      box-shadow: 0 0 6px rgba(46, 125, 50, 0.3);
     }
 
     button {
@@ -81,7 +81,7 @@
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      background: linear-gradient(to right, #ff4da6, #ff8fb1);
+      background: linear-gradient(to right, #2e7d32, #66bb6a); /* green gradient */
       color: #fff;
       transition: 0.3s;
     }
@@ -101,7 +101,7 @@
     .demo-box {
       margin-top: 20px;
       font-size: 14px;
-      background: #fff0f5;
+      background: #e8f5e9; /* pale green background */
       padding: 12px;
       border-radius: 8px;
       color: #444;
@@ -111,7 +111,22 @@
     .demo-box strong {
       display: block;
       margin-bottom: 4px;
-      color: #2f5d31;
+      color: #2e7d32; /* dark green */
+    }
+
+    p.footer {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    p.footer a {
+      color: #2e7d32; /* green link */
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    p.footer a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -144,6 +159,8 @@
       UserName: juljul <br>
       Password: 1234567890
     </div>
+
+    <p class="footer">Don’t have an account? <a href="/index.php/register">Register here</a></p>
   </div>
 </body>
 </html>

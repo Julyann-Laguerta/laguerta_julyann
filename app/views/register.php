@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #fde2e4, #f9f9fb);
+      background: linear-gradient(135deg, #e0f7e9, #f9f9fb); /* light green gradient */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -21,19 +21,19 @@
       padding: 30px 25px;
       width: 380px;
       text-align: center;
-      border: 1px solid #f8d7e2;
+      border: 1px solid #bde0c9; /* soft green border */
     }
 
     .register-container .logo {
       font-size: 40px;
-      color: #ff4da6;
+      color: #2e7d32; /* dark green */
       margin-bottom: 10px;
     }
 
     .register-container h2 {
       margin: 0;
       font-size: 20px;
-      color: #d63384;
+      color: #388e3c; /* medium green */
       font-weight: 600;
       margin-bottom: 8px;
     }
@@ -67,8 +67,8 @@
     }
 
     input:focus {
-      border-color: #ff4da6;
-      box-shadow: 0 0 6px rgba(255, 77, 166, 0.3);
+      border-color: #2e7d32;
+      box-shadow: 0 0 6px rgba(46, 125, 50, 0.3);
     }
 
     button {
@@ -80,7 +80,7 @@
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      background: linear-gradient(to right, #ff4da6, #ff8fb1);
+      background: linear-gradient(to right, #2e7d32, #66bb6a); /* green gradient */
       color: #fff;
       transition: 0.3s;
     }
@@ -103,7 +103,7 @@
     }
 
     p.footer a {
-      color: #d63384;
+      color: #2e7d32; /* green link */
       font-weight: bold;
       text-decoration: none;
     }
