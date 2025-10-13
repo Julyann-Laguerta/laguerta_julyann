@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Student Management System - Login</title>
+  <title>Student Management System - Login Portal</title>
   <style>
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #e0f7e9, #f9f9fb); /* light green gradient */
+      background: linear-gradient(135deg, #e0f7e9, #f9f9fb);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -16,28 +16,38 @@
 
     .login-container {
       background: #ffffff;
-      border-radius: 12px;
+      border-radius: 15px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      padding: 30px 25px;
-      width: 360px;
+      padding: 40px 30px;
+      width: 380px;
       text-align: center;
-      border: 1px solid #bde0c9; /* soft green border */
+      border: 1px solid #bde0c9;
+      position: relative;
+      z-index: 10;
+      animation: fadeIn 1s ease;
+      overflow: hidden;
     }
 
-    .login-container .logo {
-      font-size: 40px;
-      color: #2e7d32; /* dark green */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .logo {
+      font-size: 45px;
+      color: #2e7d32;
       margin-bottom: 10px;
     }
 
-    .login-container h2 {
+    h2 {
       margin: 0;
       font-size: 20px;
-      color: #388e3c; /* medium green */
+      color: #388e3c;
       font-weight: 600;
+      margin-bottom: 8px;
     }
 
-    .login-container p.subtitle {
+    .subtitle {
       font-size: 14px;
       color: #666;
       margin-bottom: 20px;
@@ -64,7 +74,6 @@
       font-size: 14px;
       transition: 0.3s;
       box-sizing: border-box;
-      display: block;
     }
 
     .form-group input:focus {
@@ -81,7 +90,7 @@
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      background: linear-gradient(to right, #2e7d32, #66bb6a); /* green gradient */
+      background: linear-gradient(to right, #2e7d32, #66bb6a);
       color: #fff;
       transition: 0.3s;
     }
@@ -98,20 +107,38 @@
       font-size: 14px;
     }
 
-    .demo-box {
-      margin-top: 20px;
-      font-size: 14px;
-      background: #e8f5e9; /* pale green background */
-      padding: 12px;
-      border-radius: 8px;
-      color: #444;
-      text-align: left;
+    .toggle-link {
+      margin-top: 15px;
+      font-size: 13px;
+      color: #2e7d32;
+      cursor: pointer;
+      text-decoration: underline;
+      display: inline-block;
+      transition: color 0.3s;
     }
 
-    .demo-box strong {
-      display: block;
-      margin-bottom: 4px;
-      color: #2e7d32; /* dark green */
+    .toggle-link:hover {
+      color: #1b5e20;
+    }
+
+    /* Toggle transitions */
+    .hidden {
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      transition: all 0.5s ease;
+    }
+
+    .active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+      position: relative;
+      transition: all 0.5s ease;
     }
 
     p.footer {
@@ -120,7 +147,7 @@
     }
 
     p.footer a {
-      color: #2e7d32; /* green link */
+      color: #2e7d32;
       font-weight: bold;
       text-decoration: none;
     }
@@ -131,19 +158,40 @@
   </style>
 </head>
 <body>
+
   <div class="login-container">
     <div class="logo">🎓</div>
     <h2>Student Management System</h2>
-    <p class="subtitle">Sign in to manage student records</p>
+    <p class="subtitle">Login Portal</p>
 
-    <form action="<?= site_url('login') ?>" method="POST">
-      <?php if (!empty($error)) : ?>
-        <p class="error"><?= $error ?></p>
+    <!-- Admin Login -->
+    <form id="adminForm" class="active" action="<?= site_url('/admin_login') ?>" method="POST">
+      <?php if (!empty($admin_error)) : ?>
+        <p class="error"><?= $admin_error ?></p>
+      <?php endif; ?>
+      <div class="form-group">
+        <label>Admin Username</label>
+        <input type="text" name="username" placeholder="Enter admin username" required>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter password" required>
+      </div>
+
+      <button type="submit">Login as Admin</button>
+      <div class="toggle-link" onclick="toggleForm('student')">Switch to Student Login</div>
+    </form>
+
+    <!-- Student Login -->
+    <form id="studentForm" class="hidden" action="<?= site_url('/user_login') ?>" method="POST">
+      <?php if (!empty($user_error)) : ?>
+        <p class="error"><?= $user_error ?></p>
       <?php endif; ?>
 
       <div class="form-group">
         <label>Email</label>
-        <input type="text" name="username" placeholder="admin@school.edu" required>
+        <input type="email" name="email" placeholder="student@email.com" required>
       </div>
 
       <div class="form-group">
@@ -151,16 +199,38 @@
         <input type="password" name="password" placeholder="Enter your password" required>
       </div>
 
-      <button type="submit">Sign In</button>
+      <button type="submit">Login as Student</button>
+
+      <p class="footer">Don’t have an account? 
+        <a href="register">Register here</a>
+      </p>
+
+      <div class="toggle-link" onclick="toggleForm('admin')">Switch to Admin Login</div>
     </form>
-
-    <div class="demo-box">
-      <strong>Demo Credentials:</strong>
-      UserName: juljul <br>
-      Password: 1234567890
-    </div>
-
-    <p class="footer">Don’t have an account? <a href="/index.php/register">Register here</a></p>
   </div>
+
+  <script>
+    const adminForm = document.getElementById('adminForm');
+    const studentForm = document.getElementById('studentForm');
+
+    function toggleForm(target) {
+      if (target === 'student') {
+        adminForm.classList.remove('active');
+        adminForm.classList.add('hidden');
+        setTimeout(() => {
+          studentForm.classList.remove('hidden');
+          studentForm.classList.add('active');
+        }, 200);
+      } else {
+        studentForm.classList.remove('active');
+        studentForm.classList.add('hidden');
+        setTimeout(() => {
+          adminForm.classList.remove('hidden');
+          adminForm.classList.add('active');
+        }, 200);
+      }
+    }
+  </script>
+
 </body>
 </html>

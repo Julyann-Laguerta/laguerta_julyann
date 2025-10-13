@@ -63,11 +63,13 @@ class StudentsController extends Controller {
 
   // Require login function (put this in a helper or base controller)
 function requireLogin() {
+    if (session_status() === PHP_SESSION_NONE) session_start();
     if (!isset($_SESSION['user_id'])) {
-        redirect('login'); // redirect to login page
+        redirect('/user_login');
         exit;
     }
 }
+
 
 public function create() {
     $this->requireLogin(); // 🔐 check authentication
@@ -202,7 +204,7 @@ public function search()
     // call StudentsModel instead of writing SQL here
     $results = $this->StudentsModel->searchStudents($keyword);
 
-    $catIcons = ["🐱", "😺", "😸", "😹", "😻"];
+    $catIcons = ["", "", "", "", ""];
     $i = 0;
     if (!empty($results)) {
         foreach ($results as $row) {
@@ -261,40 +263,144 @@ public function login() {
     $this->call->view('login');
 }
 
-public function logout() {
-    redirect('login');
+public function logout()
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    session_destroy();
+    header("Location: " . site_url('user_login'));
+    exit;
 }
 
-public function register() {
+
+public function register()
+{
+    $errors = [];
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $first_name = $this->io->post('first_name');
+        $last_name  = $this->io->post('last_name');
+        $emails     = $this->io->post('emails');
+        $password   = $this->io->post('password'); // plain text password
+
+        $profile_pic = null;
+        if (!empty($_FILES['profile_pic']['name'])) {
+            $target_dir = "uploads/";
+            if (!is_dir($target_dir)) mkdir($target_dir, 0777, true);
+            $file_name = time() . '_' . basename($_FILES["profile_pic"]["name"]);
+            $target_file = $target_dir . $file_name;
+
+            if (move_uploaded_file($_FILES["profile_pic"]["tmp_name"], $target_file)) {
+                $profile_pic = $target_file;
+            } else {
+                $errors[] = "Failed to upload the file.";
+            }
+        }
+
+        if (empty($first_name)) $errors[] = "First name is required.";
+        if (empty($last_name))  $errors[] = "Last name is required.";
+        if (empty($emails))     $errors[] = "Email is required.";
+        if (empty($password))   $errors[] = "Password is required.";
+
+        if (empty($errors)) {
+            $this->StudentsModel->insert([
+                'first_name'  => $first_name,
+                'last_name'   => $last_name,
+                'emails'      => $emails,
+                'password'    => $password, // ✅ not hashed
+                'profile_pic' => $profile_pic
+            ]);
+            
+            redirect('user_login');
+            return;
+        }
+    }
+
+    $this->call->view('register', ['errors' => $errors]);
+}
+public function user_panel()
+{
+    // Ensure only logged-in users can access
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: " . site_url('login'));
+        exit;
+    }
+
+    // Load model
+    $studentsModel = new StudentsModel();
+
+    // ✅ Fetch the logged-in user's record
+    $user_id = $_SESSION['user_id'];
+    $student = $studentsModel->findByUsername($user_id); // fetch single record
+
+    // ✅ Pass it to the view
+    $data['user'] = $student;
+
+    // ✅ Load view
+    $this->call->view('user_panel', $data);
+}
+
+public function admin_login()
+{
+    if (session_status() === PHP_SESSION_NONE) session_start();
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = trim($_POST['username']);
         $password = trim($_POST['password']);
-        $confirm  = trim($_POST['confirm_password']);
 
-        // Basic validation
-        if (empty($username) || empty($password)) {
-            $this->call->view('register', ['error' => '❌ All fields are required']);
+        if ($username === 'admin' && $password === 'admin123') {
+
+            $_SESSION['user_id'] = 1;
+            $_SESSION['username'] = 'admin';
+            $_SESSION['admin_logged_in'] = true;
+
+            // ✅ Use the route name, not file path
+            redirect('get_all');
             return;
         }
-        if ($password !== $confirm) {
-            $this->call->view('register', ['error' => '❌ Passwords do not match']);
-            return;
-        }
 
-        // Hash the password
-        $hashed = password_hash($password, PASSWORD_DEFAULT);
-
-        // Save into DB
-        $this->StudentsModel->insert1([
-            'username' => $username,
-            'password' => $hashed
-        ]);
-
-        // Redirect to login
-        redirect('login');
+        $this->call->view('login', ['admin_error' => '❌ Invalid admin username or password']);
+        return;
     }
 
-    $this->call->view('register');
+    $this->call->view('login');
 }
+
+public function user_login()
+{
+    if (session_status() === PHP_SESSION_NONE) session_start();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $email = trim($_POST['email']);
+        $password = trim($_POST['password']);
+
+        $studentsModel = new StudentsModel();
+
+        // 🔍 Check user by email and plain password
+        $sql = "SELECT * FROM students WHERE emails = ? AND password = ?";
+        $stmt = $studentsModel->db->raw($sql, [$email, $password]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            // ✅ Set session variables
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['email']   = $user['emails'];
+            $_SESSION['user_logged_in'] = true;
+
+            // ✅ Redirect to student panel
+            redirect('/user_panel');
+        } else {
+            // ❌ Wrong credentials
+            $this->call->view('login', [
+                'user_error' => '❌ Invalid email or password'
+            ]);
+        }
+    } else {
+        $this->call->view('login');
+    }
+}
+
+
 
 }

@@ -1,12 +1,22 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Ensure user data is passed
+$student = $student ?? [];
+$errors  = $errors ?? [];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Register Account 🌿</title>
+<title>🌿 Update Profile</title>
 <style>
   body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Poppins", sans-serif;
     background: #f0fdf4;
     display: flex;
     justify-content: center;
@@ -29,17 +39,57 @@
   }
 
   h2 {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     font-weight: 600;
-    font-size: 30px;
+    font-size: 20px;
     color: #2e7d32;
     text-align: center;
   }
 
-  .upload-section {
+  .error-list {
+    background: #ffebee;
+    border-left: 5px solid #e57373;
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: #c62828;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #2e7d32;
+    font-size: 14px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="file"] {
+    width: 96%;
+    padding: 10px 12px;
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 15px;
+    transition: border-color 0.3s;
+    background-color: #f9fff9;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    border-color: #43a047;
+    box-shadow: 0 0 4px rgba(67,160,71,0.4);
+  }
+
+  .profile-section {
     display: flex;
-    gap: 20px;
     align-items: center;
+    gap: 20px;
     margin-bottom: 20px;
   }
 
@@ -51,10 +101,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 28px;
-    color: #4caf50;
     background: #e8f5e9;
     overflow: hidden;
+    color: #4caf50;
+    font-size: 28px;
+    position: relative;
   }
 
   .avatar img {
@@ -97,39 +148,11 @@
     margin-top: 4px;
   }
 
-  label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 500;
-    color: #2e7d32;
-    font-size: 14px;
-  }
-
-  input[type="text"],
-  input[type="email"],
-  input[type="password"] {
-    width: 96%;
-    padding: 10px 12px;
-    border: 1px solid #c8e6c9;
-    border-radius: 8px;
-    font-size: 14px;
-    outline: none;
-    margin-bottom: 15px;
-    transition: border-color 0.3s;
-  }
-
-  input[type="text"]:focus,
-  input[type="email"]:focus,
-  input[type="password"]:focus {
-    border-color: #43a047;
-    box-shadow: 0 0 4px rgba(67,160,71,0.4);
-  }
-
   .actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 15px;
   }
 
   .btn-submit {
@@ -166,31 +189,15 @@
     transform: scale(1.05);
     box-shadow: 0 5px 10px rgba(0,0,0,0.15);
   }
-
-  .errors {
-    color: red;
-    font-size: 13px;
-    margin-bottom: 15px;
-  }
-
-  ul {
-    list-style-type: none;
-    padding-left: 15px;
-  }
-
-  ul li {
-    color: red;
-    margin-bottom: 5px;
-  }
 </style>
 </head>
 <body>
 
 <div class="modal">
-  <h2>Register Account</h2>
+  <h2>Update My Profile</h2>
 
   <?php if (!empty($errors)): ?>
-    <div class="errors">
+    <div class="error-list">
       <ul>
         <?php foreach ($errors as $e): ?>
           <li><?= htmlspecialchars($e) ?></li>
@@ -199,41 +206,54 @@
     </div>
   <?php endif; ?>
 
-  <form action="<?= site_url('/register'); ?>" method="POST" enctype="multipart/form-data">
-    
+  <form action="<?= site_url('/user_update/' . $student['id']); ?>" method="POST" enctype="multipart/form-data">
+
     <!-- Profile Picture Upload -->
-    <div class="upload-section">
-      <div class="avatar">👤</div>
+    <div class="profile-section">
+      <div class="avatar" id="avatarPreview">
+        <?php if (!empty($student['profile_pic'])): ?>
+          <img src="/upload/students/<?= $student['profile_pic']; ?>" alt="Profile">
+        <?php else: ?>
+          👤
+        <?php endif; ?>
+      </div>
+
       <div class="file-upload">
-        <label for="profile_pic">Click or drag image to upload</label>
+        <label for="profile_pic">Click or drag to change profile photo</label>
         <input type="file" id="profile_pic" name="profile_pic" accept="image/*">
         <small>Supported: JPG, PNG, GIF • Max 5MB</small>
       </div>
     </div>
 
     <label for="first_name">First Name</label>
-    <input type="text" id="first_name" name="first_name" placeholder="Your first name" required>
+    <input type="text" name="first_name" id="first_name" 
+           value="<?= htmlspecialchars($student['first_name']); ?>" 
+           placeholder="Enter your first name">
 
     <label for="last_name">Last Name</label>
-    <input type="text" id="last_name" name="last_name" placeholder="Your last name" required>
+    <input type="text" name="last_name" id="last_name" 
+           value="<?= htmlspecialchars($student['last_name']); ?>" 
+           placeholder="Enter your last name">
 
     <label for="emails">Email</label>
-    <input type="email" id="emails" name="emails" placeholder="you@example.com" required>
+    <input type="email" name="emails" id="emails" 
+           value="<?= htmlspecialchars($student['emails']); ?>" 
+           placeholder="Enter your email">
 
     <label for="password">Password</label>
-    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+    <input type="password" name="password" id="password" 
+           placeholder="Enter new password (leave blank to keep current)">
 
     <div class="actions">
-      <a class="back-link" href="<?= site_url('user_login') ?>">Back to Login</a>
-      <button type="submit" class="btn-submit">Register</button>
+      <a class="back-link" href="<?= site_url('user_panel'); ?>">Back</a>
+      <button type="submit" class="btn-submit">Save Changes</button>
     </div>
   </form>
 </div>
 
 <script>
-  // Preview selected image inside avatar
   const fileInput = document.getElementById("profile_pic");
-  const avatar = document.querySelector(".avatar");
+  const avatar = document.getElementById("avatarPreview");
 
   fileInput.addEventListener("change", function() {
     if (fileInput.files && fileInput.files[0]) {

@@ -91,19 +91,29 @@ public function count_filtered_records(string $keyword): int
     }
 }
 
-public function findByUsername($username) {
-    $sql = "SELECT * FROM users WHERE username = ?";
-    $stmt = $this->db->raw($sql, [$username]);
-    return $stmt->fetch(\PDO::FETCH_ASSOC); // ✅ fetch single row as array
+public function findByUsername($id) {
+    $sql = "SELECT * FROM students WHERE id = ?";
+    $stmt = $this->db->raw($sql, [$id]);
+    return $stmt->fetch(\PDO::FETCH_ASSOC); // fetch single row as array
 }
+
 
 
     // Insert new user (useful if you want to register)
     public function insert1($data) {
-        return $this->db->table('users')->insert($data);
+        return $this->db->table('students')->insert($data);
     }
 
     public function insert($data) {
-        return $this->db->table('students')->insert($data);
-    }
+    return $this->db->table('students')->insert($data);
+}
+
+public function get_student_by_email($email) {
+    $sql = "SELECT * FROM students WHERE emails = ?";
+    $stmt = $this->db->raw($sql, [$email]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row ?: null;
+}
+
+
 }

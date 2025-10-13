@@ -43,7 +43,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |
 */
 
-$router->get('/', 'StudentsController::login');
+$router->get('/', 'StudentsController::user_login');
 $router->get('/get_all', 'StudentsController::get_all');
 $router->match('/get_all/{page}', 'StudentsController::get_all', array('GET', 'POST'));
 $router->match('/create', 'StudentsController::create', array('GET', 'POST'));
@@ -51,6 +51,13 @@ $router->match('/update', 'StudentsController::update', array('GET', 'POST'));
 $router->match('/update/{id}', 'StudentsController::update', array('GET', 'POST'));
 $router->match('/delete/{id}', 'StudentsController::delete', array('GET', 'POST'));
 $router->match('students/search', 'StudentsController::search', array('GET', 'POST'));
-$router->match('/login', 'StudentsController::login', array('GET', 'POST'));
 $router->get('/logout', 'StudentsController::logout');
 $router->match('/register', 'StudentsController::register', ['GET', 'POST']);
+$router->match('/user_login', 'StudentsController::user_login', ['GET','POST']);
+$router->get('/user_panel', 'UserController::user_panel', ['GET', 'POST']);
+$router->match('/user_update/{id}', 'UserController::update', ['GET', 'POST']);
+$router->match('/admin_login', 'StudentsController::admin_login', ['GET', 'POST']);
+$route['update_user/(:num)'] = 'UserController/update/$1';
+
+
+

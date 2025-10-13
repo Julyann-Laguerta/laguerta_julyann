@@ -56,7 +56,7 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |   $database variable.
 |   Example: $database['another_example'] = array('key' => 'value')
 */
-
+/*
 $database['main'] = array(
     'driver'    => 'mysql',
     'hostname'  => getenv('DB_HOST'),
@@ -64,6 +64,18 @@ $database['main'] = array(
     'username'  => getenv('DB_USER'),
     'password'  => getenv('DB_PASS'),
     'database'  => getenv('DB_NAME'),
+    'charset'   => 'utf8mb4',
+    'dbprefix'  => '',
+    'path'      => ''
+);
+*/
+$database['main'] = array(
+    'driver'    => 'mysql',
+    'hostname'  => 'localhost',
+    'port'      => '3306',
+    'username'  => 'root',
+    'password'  => '',
+    'database'  => 'mockdata',
     'charset'   => 'utf8mb4',
     'dbprefix'  => '',
     'path'      => ''
